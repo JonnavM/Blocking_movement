@@ -17,5 +17,3 @@ a. Python Scripts
     6. Temperature.py: Creates temperature quadrants for each block and saves them into NetCDF files. It results in Figures 7, 8, S1, S9, S10, S11.
     
     7. z500_block.py: Creates and saves the z500 field around blocks to NetCDF files
-
-b. Data
