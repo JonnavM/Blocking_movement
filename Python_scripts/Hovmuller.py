@@ -28,7 +28,7 @@ def speedx(clcmassX, clcmassY):
     v = dxkm/clcmassX.count("day")
     return v
 
-dir = "/scratch/depfg/6196306/MSc_thesis/"
+dir = "Fill in directory"
 
 #ECE3p5
 hist_clarea = xr.open_dataarray(dir+"Blockings/per_lon/Intensity/long/large/hist_BI_clarea_large_weighted.nc")
@@ -43,19 +43,13 @@ hist_speedx = hist_speedx*1000/(24*3600)
 #v_cond = np.logical_and(hist_speedx_season>=hist_speedx_season.quantile(perc_vel1[i]), hist_speedx_season<=hist_speedx_season.quantile(perc_vel2[i]))
 
 
-z500_ECE = xr.open_mfdataset("/scratch/depfg/6196306/MSc_thesis/ECEARTH3p5/historical/r*i1p5f1/ensemble/zg_day_EC-Earth3_historical_r*i1p5f1.nc", combine="nested", concat_dim="ensemble").zg.persist()
-BI_ECE = xr.open_mfdataset("/scratch/depfg/6196306/MSc_thesis/Blockings/Intensity/block_hist*_BI_1850_2014.nc", combine="nested", concat_dim="ensemble").zg.load()
+z500_ECE = xr.open_mfdataset("/ECEARTH3p5/historical/r*i1p5f1/ensemble/zg_day_EC-Earth3_historical_r*i1p5f1.nc", combine="nested", concat_dim="ensemble").zg.persist()
+BI_ECE = xr.open_mfdataset("/Blockings/Intensity/block_hist*_BI_1850_2014.nc", combine="nested", concat_dim="ensemble").zg.load()
 
 z500_clim = z500_ECE.groupby("time.month").mean("time")
 z500_anom = (z500_ECE.groupby("time.month")-z500_clim).load() #Dit duurt te lang. Via cdo uitrekenen en inladen
 
-#%% Wat hebben we nodig?
-#We hebben de snelheid van de blokkades in hist_speedx
-#Hiervan willen we composites maken van alle blokkades tussen de percentielen 0-0.5-10-20-40-60-80-90-95-100
-#Er moet dus een filter over hist_speedx gezet worden om alle blokkades die hieraan voldoen op te sporen met info over member, time en block
-#Hier moeten de juiste latitudes en longitudes bij gevonden worden. 
-#Op basis van deze latitudes, longitudes, time en member kan het z500 veld gevonden worden
-#Hiervan hebben we dan de anomalie nodig om ze vergelijkbaar te maken. Ze moeten ook in dezelfde longitude range vallen, dus dag 1 moet op lon=0 gezet worden
+#%% 
 season="DJF"
 
 perc_vel1 = [0.0, 0.05, 0.1, 0.2, 0.4, 0.6, 0.8, 0.9, 0.95]
@@ -100,7 +94,7 @@ for ensemble in range(v_cond.sizes["ensemble"]):
             ax[1].set_title(f"Block Intensity (Ensemble {ensemble})")
             ax[1].set_ylabel(" ")
             plt.tight_layout()
-            #fig.savefig("/eejit/home/6196306/Data/MSc_thesis/Hovmuller-P0-005_ens0_block0_1986-12-19.pdf")
+            #fig.savefig("Hovmuller-P0-005_ens0_block0_1986-12-19.pdf")
             plt.show()
 
 #%% Now as a composite
@@ -244,6 +238,6 @@ for i in range(len(perc_vel1)):
     
     plt.tight_layout()
     plt.show()
-    fig.savefig("/eejit/home/6196306/Data/MSc_thesis/Hovmuller-"+str(percentiles[i])+"_v2.pdf")
+    fig.savefig("Hovmuller-"+str(percentiles[i])+"_v2.pdf")
     
  
