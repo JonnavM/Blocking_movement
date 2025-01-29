@@ -86,8 +86,8 @@ for i in range(len(members)):
     if var == "ECE3p5":
         m_LAT_min_lon[i].to_netcdf("/net/pc190625/nobackup_1/users/mourik/DATA/LAT_min/LAT_min_lon/lat_min_lon_hist"+str(members[i])+"_1850_2014.nc")
     elif var == "ERA5":
-        #m_LAT_min_lon[i].to_netcdf("/net/pc190625/nobackup_1/users/mourik/DATA/LAT_min/LAT_min_lon/lat_min_lon_ERA_1950_2022.nc")
-        m_LAT_min_lon[i].to_netcdf("/net/pc190625/nobackup_1/users/mourik/DATA/LAT_min/LAT_min_lon/lat_min_lon_ERA_2023_mei.nc")
+        m_LAT_min_lon[i].to_netcdf("/net/pc190625/nobackup_1/users/mourik/DATA/LAT_min/LAT_min_lon/lat_min_lon_ERA_1950_2022.nc")
+
 #%% Make a matrix filled with the values of the minimum latitude:
 LAT_min = []
 for i in members:
@@ -222,5 +222,4 @@ for i in range(len(members)):
     if var == "ECE3p5":
         block_hist[i].to_netcdf("/net/pc190625/nobackup_1/users/mourik/DATA/Blockings/per_lon/Intensity/block_var_hist"+str(members[i])+"_BI_1850_2014.nc")
     elif var == "ERA5":
-        #block_hist[i].to_netcdf("/net/pc190625/nobackup_1/users/mourik/DATA/Blockings/per_lon/Intensity/block_var_ERA_BI_1950_2022.nc")
-        block_hist[i].to_netcdf("/net/pc190625/nobackup_1/users/mourik/DATA/Blockings/per_lon/Intensity/block_var_ERA_BI_2023_mei.nc")
+        block_hist[i].to_netcdf("/net/pc190625/nobackup_1/users/mourik/DATA/Blockings/per_lon/Intensity/block_var_ERA_BI_1950_2022.nc")
