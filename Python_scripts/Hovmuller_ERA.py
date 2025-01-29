@@ -28,7 +28,7 @@ def speedx(clcmassX, clcmassY):
     v = dxkm/clcmassX.count("day")
     return v
 
-dir = "/scratch/depfg/6196306/MSc_thesis/"
+dir = "Fill in directory"
 
 #ERA
 ERA_clcmassX = xr.open_dataset(dir+"Blockings/per_lon/Intensity/long/ERA_BI_data_weighted.nc").clcmassX
@@ -41,8 +41,8 @@ ERA_speedx = ERA_speedx*1000/(24*3600)
 #%% Make composit for the same intervals as for the temperature-size-velocity plot
 #v_cond = np.logical_and(hist_speedx_season>=hist_speedx_season.quantile(perc_vel1[i]), hist_speedx_season<=hist_speedx_season.quantile(perc_vel2[i]))
 
-z500_ERA = xr.open_dataarray("/scratch/depfg/6196306/MSc_thesis/ERA5/era5_z500.nc")
-BI_ERA = xr.open_dataarray("/scratch/depfg/6196306/MSc_thesis/Blockings/Intensity/block_ERA_BI_1950_2022.nc")
+z500_ERA = xr.open_dataarray("/ERA5/era5_z500.nc")
+BI_ERA = xr.open_dataarray("/Blockings/Intensity/block_ERA_BI_1950_2022.nc")
 
 z500_clim = z500_ERA.groupby("time.month").mean("time")
 z500_anom = (z500_ERA.groupby("time.month")-z500_clim).load()
@@ -77,5 +77,5 @@ cbar_BI.set_label("BI (-)", fontsize=14)
 ax[1].scatter(lons, pd.date_range(start=start_date, end=end_date, freq="D")[:-1], color="black")
 ax[1].set_ylabel(" ")
 plt.tight_layout()
-fig.savefig("/eejit/home/6196306/Data/MSc_thesis/Hovmuller-ERA_block0_1963-05-26_v3.pdf")
+fig.savefig("Hovmuller-ERA_block0_1963-05-26_v3.pdf")
 plt.show()
