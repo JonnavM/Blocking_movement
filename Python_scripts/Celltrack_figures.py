@@ -20,7 +20,7 @@ import matplotlib.cm as cm
 
 print("Modules loaded in")
 
-dir = "/scratch/depfg/6196306/MSc_thesis/"
+dir = "Fill in directory"
 fontsize=14
 
 #Create personalized colormaps
@@ -52,15 +52,15 @@ def speedx(clcmassX, clcmassY):
 print("Definitions defined")
 #%% Open ERA to filter out blocks of short duration and small size. Only has to be run once. Saves files that will be loaded in later
 """
-with open("/net/pc190625/nobackup/users/mourik/DATA/Tracking/output_data/ERA_varlat/celltrack/ERA_BI_1950_2022/tracks_all_stats.txt", "r") as f:
+with open("/Tracking/output_data/ERA_varlat/celltrack/ERA_BI_1950_2022/tracks_all_stats.txt", "r") as f:
     ERA_area = [[num for num in line.split()] for line in f]
-with open("/net/pc190625/nobackup/users/mourik/DATA/Tracking/output_data/ERA_varlat/celltrack/ERA_BI_1950_2022/cell_stats.txt", "r") as g:
+with open("/Tracking/output_data/ERA_varlat/celltrack/ERA_BI_1950_2022/cell_stats.txt", "r") as g:
     ERA_time = [[num for num in line.split()] for line in g]
 
 ERA_time = np.array(ERA_time, dtype=object)[1:,:]
 ERA_time[:,0]=ERA_time[:,0].astype(float)
-ERA_track = xr.open_dataarray("/net/pc190625/nobackup_1/users/mourik/DATA/Blockings/per_lon/Intensity/long/block_ERA_BI_long.nc")
-ERA_track_all = xr.open_dataset("/net/pc190625/nobackup/users/mourik/DATA/Tracking/output_data/ERA_varlat/celltrack/ERA_BI_1950_2022/tracks.nc").trackID
+ERA_track = xr.open_dataarray("/Blockings/per_lon/Intensity/long/block_ERA_BI_long.nc")
+ERA_track_all = xr.open_dataset("/Tracking/output_data/ERA_varlat/celltrack/ERA_BI_1950_2022/tracks.nc").trackID
 lon = ERA_track['lon'].data
 lat = ERA_track['lat'].data
 
@@ -140,7 +140,7 @@ ERA_block = xr.Dataset(data_vars=dict(grid_clarea=(["time", "day", "block"], dat
                                       BImax=(["time", "day", "block"], data[4,:,:,:])),
                        coords=dict(time=np.array(list(count_startdate.keys()), dtype="datetime64")),
                        attrs=dict(decription="Data on the area and location of blockings"))
-ERA_block.to_netcdf("/net/pc190625/nobackup_1/users/mourik/DATA/Blockings/per_lon/Intensity/long/ERA_BI_data_weighted.nc")
+ERA_block.to_netcdf("/Blockings/per_lon/Intensity/long/ERA_BI_data_weighted.nc")
 #Mean area
 print("Mean size of ERA blocking:", ERA_block["grid_clarea"].sel(time=slice("1951-01-01", "2014-12-31")).mean(), "+-", ERA_block["grid_clarea"].sel(time=slice("1951-01-01", "2014-12-31")).std(), "cells")
 print("Mean size of ERA blocking:", gridcell(ERA_block["grid_clarea"].sel(time=slice("1951-01-01", "2014-12-31")), ERA_block["clcmassY"].sel(time=slice("1951-01-01", "2014-12-31"))).mean(), "+-", 
@@ -160,13 +160,13 @@ dates = np.arange(19510101, 20141231, 1)
 
 for n in range(16):
     print(n)
-    with open("/net/pc190625/nobackup/users/mourik/DATA/Tracking/output_data/historical_varlat/celltrack/hist"+str(files[n])+"_BI_1850_2014/cell_shape.txt", "r") as h:
+    with open("/Tracking/output_data/historical_varlat/celltrack/hist"+str(files[n])+"_BI_1850_2014/cell_shape.txt", "r") as h:
         d = [[num for num in line.split()] for line in h]
         hist_shape.append(np.array(d[1:]))
-    with open("/net/pc190625/nobackup/users/mourik/DATA/Tracking/output_data/historical_varlat/celltrack/hist"+str(files[n])+"_BI_1850_2014/tracks_all_stats.txt", "r") as f:
+    with open("/Tracking/output_data/historical_varlat/celltrack/hist"+str(files[n])+"_BI_1850_2014/tracks_all_stats.txt", "r") as f:
         b = [[num for num in line.split()] for line in f]
         hist_area.append(np.array(b, dtype=object))
-    with open("/net/pc190625/nobackup/users/mourik/DATA/Tracking/output_data/historical_varlat/celltrack/hist"+str(files[n])+"_BI_1850_2014/cell_stats.txt", "r") as g:
+    with open("/Tracking/output_data/historical_varlat/celltrack/hist"+str(files[n])+"_BI_1850_2014/cell_stats.txt", "r") as g:
         c = [[num for num in line.split()] for line in g]
         append = np.array(c, dtype=object)[1:,:]
         append[:,0]=append[:,0].astype(float)
@@ -332,13 +332,13 @@ hist_majlen["time"] = pd.DatetimeIndex(hist_majlen["time"].values)
 hist_minlen = xr.concat([hist_minlen_list[i] for i in range(16)], "ensemble")
 hist_minlen["time"] = pd.DatetimeIndex(hist_minlen["time"].values)
 
-hist_clarea.to_netcdf("/net/pc190625/nobackup_1/users/mourik/DATA/Blockings/per_lon/Intensity/long/large/hist_BI_clarea_large_weighted.nc")
-hist_clcmassX.to_netcdf("/net/pc190625/nobackup_1/users/mourik/DATA/Blockings/per_lon/Intensity/long/large/hist_BI_clcmassX_large_weighted.nc")
-hist_clcmassY.to_netcdf("/net/pc190625/nobackup_1/users/mourik/DATA/Blockings/per_lon/Intensity/long/large/hist_BI_clcmassY_large_weighted.nc")
-hist_BIav.to_netcdf("/net/pc190625/nobackup_1/users/mourik/DATA/Blockings/per_lon/Intensity/long/large/hist_BI_BIav_large.nc")
-hist_BImax.to_netcdf("/net/pc190625/nobackup_1/users/mourik/DATA/Blockings/per_lon/Intensity/long/large/hist_BI_BImax_large.nc")
-hist_majlen.to_netcdf("/net/pc190625/nobackup_1/users/mourik/DATA/Blockings/per_lon/Intensity/long/large/hist_BI_majlen_large.nc")
-hist_minlen.to_netcdf("/net/pc190625/nobackup_1/users/mourik/DATA/Blockings/per_lon/Intensity/long/large/hist_BI_minlen_large.nc")
+hist_clarea.to_netcdf("/Blockings/per_lon/Intensity/long/large/hist_BI_clarea_large_weighted.nc")
+hist_clcmassX.to_netcdf("/Blockings/per_lon/Intensity/long/large/hist_BI_clcmassX_large_weighted.nc")
+hist_clcmassY.to_netcdf("/Blockings/per_lon/Intensity/long/large/hist_BI_clcmassY_large_weighted.nc")
+hist_BIav.to_netcdf("/Blockings/per_lon/Intensity/long/large/hist_BI_BIav_large.nc")
+hist_BImax.to_netcdf("/Blockings/per_lon/Intensity/long/large/hist_BI_BImax_large.nc")
+hist_majlen.to_netcdf("/Blockings/per_lon/Intensity/long/large/hist_BI_majlen_large.nc")
+hist_minlen.to_netcdf("/Blockings/per_lon/Intensity/long/large/hist_BI_minlen_large.nc")
 """
 #%% Import data for ERA-5 and EC-Earth3bis
 ERA_block = xr.open_dataset(dir+"Blockings/per_lon/Intensity/long/ERA_BI_data_weighted.nc")
@@ -580,7 +580,6 @@ CS = ax.contourf(X, Y, Z5*10**4, levels=np.linspace(0, 0.0003e4, 10), extend="ma
 cbar = plt.colorbar(CS, ticks=[0, 1, 2, 3], orientation="horizontal", cax=cbar_ax2)
 cbar.set_label(r"Frequency ($\cdot 10^{-4}$)", size=fontsize)
 
-#fig.savefig("/usr/people/mourik/Documents/Python/Figures/varlat/spatialdistr_velocity_P10_P90_ng_day4_try.pdf", bbox_inches='tight')
 fig.savefig(dir+"Figures_fontsize/spatialdistr_velocity_P10_P90_ng_day4_middle_fs="+str(fontsize)+".pdf", bbox_inches='tight')
 plt.show()
 
@@ -630,7 +629,7 @@ for i in range(3):
     ax2.text(64, 156, "MAM", fontsize=fontsize)
     ax2.text(156, 156, "JJA", fontsize=fontsize)
     ax2.text(248, 156, "SON", fontsize=fontsize)
-    plt.savefig("/scratch/depfg/6196306/MSc_thesis/"+name[i]+"split_velocity_fs="+str(fontsize)+".pdf")
+    plt.savefig("/"+name[i]+"split_velocity_fs="+str(fontsize)+".pdf")
     plt.show()
 
 fig, axes = plt.subplots(nrows=1, ncols=3, figsize=(15,4), tight_layout=True)
