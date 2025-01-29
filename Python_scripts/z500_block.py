@@ -12,12 +12,12 @@ def speedx(clcmassX, clcmassY):
     v = dxkm/clcmassX.count("day")
     return v
 
-majlen = xr.open_dataarray("/scratch/depfg/6196306/MSc_thesis/Blockings/per_lon/Intensity/long/large/hist_BI_majlen_large.nc")#.sel(ensemble=15)
-minlen = xr.open_dataarray("/scratch/depfg/6196306/MSc_thesis/Blockings/per_lon/Intensity/long/large/hist_BI_minlen_large.nc")#.sel(ensemble=15)
-hist_clcmassX = xr.open_dataarray("/scratch/depfg/6196306/MSc_thesis/Blockings/per_lon/Intensity/long/large/hist_BI_clcmassX_large_weighted.nc")#.sel(ensemble=15)
-hist_clcmassY = xr.open_dataarray("/scratch/depfg/6196306/MSc_thesis/Blockings/per_lon/Intensity/long/large/hist_BI_clcmassY_large_weighted.nc")#.sel(ensemble=15)
-hist_BIav = xr.open_dataarray("/scratch/depfg/6196306/MSc_thesis/Blockings/per_lon/Intensity/long/large/hist_BI_BIav_large.nc")
-hist_clarea = xr.open_dataarray("/scratch/depfg/6196306/MSc_thesis/Blockings/per_lon/Intensity/long/large/hist_BI_clarea_large_weighted.nc")
+majlen = xr.open_dataarray("/Blockings/per_lon/Intensity/long/large/hist_BI_majlen_large.nc")#.sel(ensemble=15)
+minlen = xr.open_dataarray("/Blockings/per_lon/Intensity/long/large/hist_BI_minlen_large.nc")#.sel(ensemble=15)
+hist_clcmassX = xr.open_dataarray("/Blockings/per_lon/Intensity/long/large/hist_BI_clcmassX_large_weighted.nc")#.sel(ensemble=15)
+hist_clcmassY = xr.open_dataarray("/Blockings/per_lon/Intensity/long/large/hist_BI_clcmassY_large_weighted.nc")#.sel(ensemble=15)
+hist_BIav = xr.open_dataarray("/Blockings/per_lon/Intensity/long/large/hist_BI_BIav_large.nc")
+hist_clarea = xr.open_dataarray("/Blockings/per_lon/Intensity/long/large/hist_BI_clarea_large_weighted.nc")
 
 hist_speedx = speedx(hist_clcmassX, hist_clcmassY)
 
@@ -25,8 +25,8 @@ ens_str = ["02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13
 ens = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
 for i in range(len(ens)):
     print(ens[i])
-    #tas = xr.open_dataset("/net/pc190625/nobackup_1/users/mourik/DATA/Temperature/ECEARTH3Bis/ensembles/tas/anomaly/land/tas_hist"+str(ens_str[i])+"_anom_land.nc").tas
-    z500 = xr.open_dataset("/scratch/depfg/6196306/MSc_thesis/ECEARTH3p5/historical/r"+str(ens[i]+1)+"i1p5f1/ensemble/zg_day_EC-Earth3_historical_r"+str(ens[i]+1)+"i1p5f1.nc").zg
+    #tas = xr.open_dataset("/Temperature/ECEARTH3Bis/ensembles/tas/anomaly/land/tas_hist"+str(ens_str[i])+"_anom_land.nc").tas
+    z500 = xr.open_dataset("/ECEARTH3p5/historical/r"+str(ens[i]+1)+"i1p5f1/ensemble/zg_day_EC-Earth3_historical_r"+str(ens[i]+1)+"i1p5f1.nc").zg
     #tas["time"] = tas.indexes["time"].normalize()
     z500["time"] = z500.indexes["time"].normalize()
     T_block_shape = np.zeros([59653, 5, 17, 33])*np.nan
@@ -81,7 +81,7 @@ for i in range(len(ens)):
             else:
                 break
     #T_block_xr = xr.Dataset(data_vars=dict(Temp_anom=(["time", "block", "lat", "lon"], T_block_shape)), coords=dict(time=hist_clcmassX.sel(ensemble=0)["time"], lon=np.arange(-40, 42.5, 2.5), lat=np.arange(-20, 22.5, 2.5))).Temp_anom
-    #T_block_xr.to_netcdf("/net/pc190625/nobackup_1/users/mourik/DATA/Temperature/Tblock/20x40/varlat/Tas_block_hist"+str(ens_str[i])+"_20x40_land.nc")
+    #T_block_xr.to_netcdf("/Temperature/Tblock/20x40/varlat/Tas_block_hist"+str(ens_str[i])+"_20x40_land.nc")
     z500_block_xr = xr.Dataset(data_vars=dict(z500=(["time", "block", "lat", "lon"], T_block_shape)), coords=dict(time=hist_clcmassX.sel(ensemble=0)["time"], lon=np.arange(-40, 42.5, 2.5), lat=np.arange(-20, 22.5, 2.5))).z500
-    z500_block_xr.to_netcdf("/scratch/depfg/6196306/MSc_thesis/ECEARTH3p5/historical/z500block/z500_block_hist"+str(ens_str[i])+"_20x40.nc")
+    z500_block_xr.to_netcdf("/ECEARTH3p5/historical/z500block/z500_block_hist"+str(ens_str[i])+"_20x40.nc")
 
