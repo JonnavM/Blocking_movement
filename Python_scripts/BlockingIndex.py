@@ -30,10 +30,10 @@ avg_z500 = []
 
 for i in members:
     if var == "ECE3p5":
-        data.append(xr.open_mfdataset("/net/pc190625/nobackup/users/mourik/DATA/ECEARTH3Bis/remapbil2_5x2_5/northernhemisphere/historical/r"+str(i)+"i1p5f1/day/zg/*.nc"))
+        data.append(xr.open_mfdataset("/ECEARTH3Bis/remapbil2_5x2_5/northernhemisphere/historical/r"+str(i)+"i1p5f1/day/zg/*.nc"))
         z500.append(data[i-members[0]].zg.mean("plev")) 
     elif var == "ERA5":
-        data.append(xr.open_dataset("/net/pc190625/nobackup/users/mourik/DATA/ERA5/regrid/era5_z500_daily_-180-180E_0-90N.nc"))
+        data.append(xr.open_dataset("/ERA5/regrid/era5_z500_daily_-180-180E_0-90N.nc"))
         z500.append(data[i-members[0]].z500/9.81)
         
 time_var = z500[0]['time'].data
@@ -84,17 +84,17 @@ for i in range(len(members)):
     m_LAT_min_lon.append(lat_min_lon(z500[i], avg_z500[i], time_var)) #Use this one if you want one value per longitude per day
     print("Saving")
     if var == "ECE3p5":
-        m_LAT_min_lon[i].to_netcdf("/net/pc190625/nobackup_1/users/mourik/DATA/LAT_min/LAT_min_lon/lat_min_lon_hist"+str(members[i])+"_1850_2014.nc")
+        m_LAT_min_lon[i].to_netcdf("/LAT_min/LAT_min_lon/lat_min_lon_hist"+str(members[i])+"_1850_2014.nc")
     elif var == "ERA5":
-        m_LAT_min_lon[i].to_netcdf("/net/pc190625/nobackup_1/users/mourik/DATA/LAT_min/LAT_min_lon/lat_min_lon_ERA_1950_2022.nc")
+        m_LAT_min_lon[i].to_netcdf("/LAT_min/LAT_min_lon/lat_min_lon_ERA_1950_2022.nc")
 
 #%% Make a matrix filled with the values of the minimum latitude:
 LAT_min = []
 for i in members:
     if var =="ECE3p5":
-        LAT_min.append(xr.open_dataarray("/net/pc190625/nobackup_1/users/mourik/DATA/LAT_min/LAT_min_lon/lat_min_lon_hist"+str(i)+"_1850_2014.nc"))
+        LAT_min.append(xr.open_dataarray("/LAT_min/LAT_min_lon/lat_min_lon_hist"+str(i)+"_1850_2014.nc"))
     elif var == "ERA5":
-        LAT_min.append(xr.open_dataarray("/net/pc190625/nobackup_1/users/mourik/DATA/LAT_min/LAT_min_lon/lat_min_lon_ERA_1950_2022.nc"))
+        LAT_min.append(xr.open_dataarray("/LAT_min/LAT_min_lon/lat_min_lon_ERA_1950_2022.nc"))
 
 def matrix_latmin(LAT_min, time):
     matrix_2d = np.zeros([len(time), len(lon)])
@@ -153,8 +153,8 @@ GHGS_hist = []
 for i in range(len(members)):
     GHGN_hist.append(GHGN(z500[i], LAT_min[i], lon, lat, time_var))
     GHGS_hist.append(GHGS(z500[i], LAT_min[i], lon, lat, time_var))
-    GHGN_hist[i].to_netcdf("/net/pc190625/nobackup_1/users/mourik/DATA/GHG/GHGN_585_"+str(members[i])+"_2015_2166.nc")
-    GHGS_hist[i].to_netcdf("/net/pc190625/nobackup_1/users/mourik/DATA/GHG/GHGS_585_"+str(members[i])+"_2015_2166.nc")
+    GHGN_hist[i].to_netcdf("/GHG/GHGN_585_"+str(members[i])+"_2015_2166.nc")
+    GHGS_hist[i].to_netcdf("/GHG/GHGS_585_"+str(members[i])+"_2015_2166.nc")
 
 #%% Local spatial filtering
 "Keep only gridpoints embedded in the high pressure systems. GHG>20m per degree is defined as strong wind flow and is therefore neglected in the analysis."
@@ -220,6 +220,6 @@ for i in range(len(members)):
     print(i)
     block_hist.append(block(z500[i], LAT_min[i], lon, lat, time_var))   #Choose which type of block to use
     if var == "ECE3p5":
-        block_hist[i].to_netcdf("/net/pc190625/nobackup_1/users/mourik/DATA/Blockings/per_lon/Intensity/block_var_hist"+str(members[i])+"_BI_1850_2014.nc")
+        block_hist[i].to_netcdf("/Blockings/per_lon/Intensity/block_var_hist"+str(members[i])+"_BI_1850_2014.nc")
     elif var == "ERA5":
-        block_hist[i].to_netcdf("/net/pc190625/nobackup_1/users/mourik/DATA/Blockings/per_lon/Intensity/block_var_ERA_BI_1950_2022.nc")
+        block_hist[i].to_netcdf("/Blockings/per_lon/Intensity/block_var_ERA_BI_1950_2022.nc")
