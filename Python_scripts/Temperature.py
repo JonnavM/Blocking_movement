@@ -26,27 +26,27 @@ def speedx(clcmassX, clcmassY):
 
 #%% Load in temperature anomalies. Aim: get a square on the north and south side of the block and save mean temperature.
 
-tas = xr.open_dataset("/scratch/depfg/6196306/MSc_thesis/Temperature/ECEARTH3Bis/ensembles/tas/anomaly/tas_hist01_anom.nc").tas
-majlen = xr.open_dataarray("/scratch/depfg/6196306/MSc_thesis/Blockings/per_lon/Intensity/long/large/hist_BI_majlen_large.nc")#.sel(ensemble=15)
-minlen = xr.open_dataarray("/scratch/depfg/6196306/MSc_thesis/Blockings/per_lon/Intensity/long/large/hist_BI_minlen_large.nc")#.sel(ensemble=15)
-hist_clcmassX = xr.open_dataarray("/scratch/depfg/6196306/MSc_thesis/Blockings/per_lon/Intensity/long/large/hist_BI_clcmassX_large_weighted.nc")#.sel(ensemble=15)
-hist_clcmassY = xr.open_dataarray("/scratch/depfg/6196306/MSc_thesis/Blockings/per_lon/Intensity/long/large/hist_BI_clcmassY_large_weighted.nc")#.sel(ensemble=15)
-hist_BIav = xr.open_dataarray("/scratch/depfg/6196306/MSc_thesis/Blockings/per_lon/Intensity/long/large/hist_BI_BIav_large.nc")
-hist_clarea = xr.open_dataarray("/scratch/depfg/6196306/MSc_thesis/Blockings/per_lon/Intensity/long/large/hist_BI_clarea_large_weighted.nc")
-hist_clarea_dmean = xr.open_dataarray("/scratch/depfg/6196306/MSc_thesis/Blockings/per_lon/Intensity/long/large/hist_BI_clarea_large_weighted_daymean.nc")
+tas = xr.open_dataset("/ECEARTH3Bis/ensembles/tas/anomaly/tas_hist01_anom.nc").tas
+majlen = xr.open_dataarray("/Blockings/per_lon/Intensity/long/large/hist_BI_majlen_large.nc")#.sel(ensemble=15)
+minlen = xr.open_dataarray("/Blockings/per_lon/Intensity/long/large/hist_BI_minlen_large.nc")#.sel(ensemble=15)
+hist_clcmassX = xr.open_dataarray("/Blockings/per_lon/Intensity/long/large/hist_BI_clcmassX_large_weighted.nc")#.sel(ensemble=15)
+hist_clcmassY = xr.open_dataarray("/Blockings/per_lon/Intensity/long/large/hist_BI_clcmassY_large_weighted.nc")#.sel(ensemble=15)
+hist_BIav = xr.open_dataarray("/Blockings/per_lon/Intensity/long/large/hist_BI_BIav_large.nc")
+hist_clarea = xr.open_dataarray("/Blockings/per_lon/Intensity/long/large/hist_BI_clarea_large_weighted.nc")
+hist_clarea_dmean = xr.open_dataarray("/Blockings/per_lon/Intensity/long/large/hist_BI_clarea_large_weighted_daymean.nc")
 
 tas["time"] = tas.indexes["time"].normalize()
 hist_speedx = speedx(hist_clcmassX, hist_clcmassY)
 hist_speedx = hist_speedx*1000/(24*3600)
 
 #Import temp field around blocks, either with or without oceans. This can only be done if you already produced these files in "save temperature field for different blocks"
-T_block_xr = xr.open_mfdataset("/scratch/depfg/6196306/MSc_thesis/Temperature/Tblock/20x40/varlat/Tas_block_hist*_20x40_land.nc", combine="nested", concat_dim="ensemble").Temp_anom
-z500_block_xr = xr.open_mfdataset("/scratch/depfg/6196306/MSc_thesis/ECEARTH3p5/historical/z500block/z500_block_hist*_20x40.nc", combine="nested", concat_dim="ensemble").z500
+T_block_xr = xr.open_mfdataset("/Temperature/Tblock/20x40/varlat/Tas_block_hist*_20x40_land.nc", combine="nested", concat_dim="ensemble").Temp_anom
+z500_block_xr = xr.open_mfdataset("/ECEARTH3p5/historical/z500block/z500_block_hist*_20x40.nc", combine="nested", concat_dim="ensemble").z500
 #Import different quadrants, either with or without oceans. This can only be done if you already produced these files in "Create quadrants"
-UL = xr.open_dataarray("/scratch/depfg/6196306/MSc_thesis/Temperature/UL_varlat_land.nc")
-UR = xr.open_dataarray("/scratch/depfg/6196306/MSc_thesis/Temperature/UR_varlat_land.nc")
-LL = xr.open_dataarray("/scratch/depfg/6196306/MSc_thesis/Temperature/LL_varlat_land.nc")
-LR = xr.open_dataarray("/scratch/depfg/6196306/MSc_thesis/Temperature/LR_varlat_land.nc")
+UL = xr.open_dataarray("/Temperature/UL_varlat_land.nc")
+UR = xr.open_dataarray("/Temperature/UR_varlat_land.nc")
+LL = xr.open_dataarray("/Temperature/LL_varlat_land.nc")
+LR = xr.open_dataarray("/Temperature/LR_varlat_land.nc")
 
 
 #%% Create quadrants
@@ -55,10 +55,10 @@ LR = xr.open_dataarray("/scratch/depfg/6196306/MSc_thesis/Temperature/LR_varlat_
 #LL = UL
 #LR = UL
 
-#UL = np.load("/net/pc190625/nobackup_1/users/mourik/DATA/Temperature/UL_varlat_land.npy")
-#UR = np.load("/net/pc190625/nobackup_1/users/mourik/DATA/Temperature/UR_varlat_land.npy")
-#LL = np.load("/net/pc190625/nobackup_1/users/mourik/DATA/Temperature/LL_varlat_land.npy")
-#LR = np.load("/net/pc190625/nobackup_1/users/mourik/DATA/Temperature/LR_varlat_land.npy")
+#UL = np.load("/Temperature/UL_varlat_land.npy")
+#UR = np.load("/Temperature/UR_varlat_land.npy")
+#LL = np.load("/Temperature/LL_varlat_land.npy")
+#LR = np.load("/Temperature/LR_varlat_land.npy")
 
 
 #i=15
@@ -82,10 +82,10 @@ LR = xr.open_dataarray("/scratch/depfg/6196306/MSc_thesis/Temperature/LR_varlat_
 #                break
 
 #Save outputs to work on later
-#np.save("/net/pc190625/nobackup_1/users/mourik/DATA/Temperature/UL_varlat_land.npy", UL)
-#np.save("/net/pc190625/nobackup_1/users/mourik/DATA/Temperature/UR_varlat_land.npy", UR)
-#np.save("/net/pc190625/nobackup_1/users/mourik/DATA/Temperature/LL_varlat_land.npy", LL)
-#np.save("/net/pc190625/nobackup_1/users/mourik/DATA/Temperature/LR_varlat_land.npy", LR)
+#np.save("/Temperature/UL_varlat_land.npy", UL)
+#np.save("/Temperature/UR_varlat_land.npy", UR)
+#np.save("/Temperature/LL_varlat_land.npy", LL)
+#np.save("/Temperature/LR_varlat_land.npy", LR)
 
 # Change outputs to xarray datasets
 #UL = xr.Dataset(data_vars=dict(upperleft=(["ensemble", "time", "day", "block"], UL[:,:,:,:])), coords=dict(time=hist_clcmassX["time"])).upperleft
@@ -99,18 +99,18 @@ LR = xr.open_dataarray("/scratch/depfg/6196306/MSc_thesis/Temperature/LR_varlat_
 #LR = LR.where(LR!=0, np.nan)
 
 #Save as xarray files
-#UL.to_netcdf("/net/pc190625/nobackup_1/users/mourik/DATA/Temperature/UL_varlat_land.nc")
-#UR.to_netcdf("/net/pc190625/nobackup_1/users/mourik/DATA/Temperature/UR_varlat_land.nc")
-#LL.to_netcdf("/net/pc190625/nobackup_1/users/mourik/DATA/Temperature/LL_varlat_land.nc")
-#LR.to_netcdf("/net/pc190625/nobackup_1/users/mourik/DATA/Temperature/LR_varlat_land.nc")
+#UL.to_netcdf("/Temperature/UL_varlat_land.nc")
+#UR.to_netcdf("/Temperature/UR_varlat_land.nc")
+#LL.to_netcdf("/Temperature/LL_varlat_land.nc")
+#LR.to_netcdf("/Temperature/LR_varlat_land.nc")
 
 
 #%% Save temperature field for different blocks 20x40
 ens_str = ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16"]
 ens = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
 for i in range(len(ens)):
-    #tas = xr.open_dataset("/net/pc190625/nobackup_1/users/mourik/DATA/Temperature/ECEARTH3Bis/ensembles/tas/anomaly/land/tas_hist"+str(ens_str[i])+"_anom_land.nc").tas
-    z500 = xr.open_dataset("/scratch/depfg/6196306/MSc_thesis/ECEARTH3p5/historical/r"+str(ens[i]+1)+"i1p5f1/ensemble/zg_day_EC-Earth3_historical_r"+str(ens[i]+1)+"i1p5f1.nc").zg
+    #tas = xr.open_dataset("/Temperature/ECEARTH3Bis/ensembles/tas/anomaly/land/tas_hist"+str(ens_str[i])+"_anom_land.nc").tas
+    z500 = xr.open_dataset("/ECEARTH3p5/historical/r"+str(ens[i]+1)+"i1p5f1/ensemble/zg_day_EC-Earth3_historical_r"+str(ens[i]+1)+"i1p5f1.nc").zg
     #tas["time"] = tas.indexes["time"].normalize()
     z500["time"] = z500.indexes["time"].normalize()
     T_block_shape = np.zeros([59653, 5, 17, 33])*np.nan
@@ -164,9 +164,9 @@ for i in range(len(ens)):
             else:
                 break
     #T_block_xr = xr.Dataset(data_vars=dict(Temp_anom=(["time", "block", "lat", "lon"], T_block_shape)), coords=dict(time=hist_clcmassX.sel(ensemble=0)["time"], lon=np.arange(-40, 42.5, 2.5), lat=np.arange(-20, 22.5, 2.5))).Temp_anom
-    #T_block_xr.to_netcdf("/net/pc190625/nobackup_1/users/mourik/DATA/Temperature/Tblock/20x40/varlat/Tas_block_hist"+str(ens_str[i])+"_20x40_land.nc")
+    #T_block_xr.to_netcdf("/Temperature/Tblock/20x40/varlat/Tas_block_hist"+str(ens_str[i])+"_20x40_land.nc")
     z500_block_xr = xr.Dataset(data_vars=dict(z500=(["time", "block", "lat", "lon"], T_block_shape)), coords=dict(time=hist_clcmassX.sel(ensemble=0)["time"], lon=np.arange(-40, 42.5, 2.5), lat=np.arange(-20, 22.5, 2.5))).z500
-    #z500_block_xr.to_netcdf("/scratch/depfg/6196306/MSc_thesis/ECEARTH3p5/historical/z500block/z500_block_hist"+str(ens_str[i])+"_20x40.nc")
+    #z500_block_xr.to_netcdf("/ECEARTH3p5/historical/z500block/z500_block_hist"+str(ens_str[i])+"_20x40.nc")
 
 #%% Percentile and KDE plot for temperature against velocity per season for the quadrants
 title = ["Upperleft", "Upperright", "Lowerleft", "Lowerright"]
@@ -287,7 +287,7 @@ for i in range(4):
     a = sns.kdeplot(ax=ax[1], x=xs, y=ys, cmap="Blues", fill=True, cbar=True, cbar_ax=cbar_ax, cbar_kws={"label":"Frequency", "format":formatter}, levels=10, norm=Normalize(vmax=0.03, vmin=0.00126))
     ax[1].legend()
     ax[1].hlines(y=0, xmin=-2000*1000/(24*3600), xmax=2000*1000/(24*3600), color="black", alpha=0.5, linestyle="--")
-    fig.savefig("/scratch/depfg/6196306/MSc_thesis/Final_Figures/review/percentiles_temp_speed_P10_P90_"+str(title[i])+"_ms.pdf", bbox_inches='tight')
+    fig.savefig("percentiles_temp_speed_P10_P90_"+str(title[i])+"_ms.pdf", bbox_inches='tight')
     plt.show()
 
 #%% Single plot for composite: mean values
@@ -300,7 +300,7 @@ T_block_xr.sel(ensemble=slice(0,16), lat=slice(-20,19), lon=slice(-40,39)).where
 plt.title(season + r", $0.4 \leq $P$ \leq 0.6$")
 plt.xlabel(r"Relative longitude ($^\circ$)")
 plt.ylabel("Relative latitude ($^\circ$)")
-plt.savefig("/usr/people/mourik/Documents/Python/Figures/varlat/composit_vel_size_"+str(season)+"_P40-60_20x40_land.pdf")
+plt.savefig("composit_vel_size_"+str(season)+"_P40-60_20x40_land.pdf")
 plt.show()
 
 #%% Composite figure of the temperature for different velocities and sizes
@@ -330,8 +330,7 @@ fig.supylabel(r"Percentile size")
 fig.supxlabel("Percentile velocity")
 fig.text(0.12 , 0.08, "0%             20%           40%             60%             80%           100%")
 fig.text(0.10 , 0.1, "0%         20%          40%          60%          80%          100%", rotation="vertical")
-#fig.savefig("/scratch/depfg/6196306/MSc_thesis/varlat/composit_size_vel_"+str(season)+"_20x40_land_v2.pdf")
-fig.savefig("/scratch/depfg/6196306/MSc_thesis/Final_Figures/review/composit_size_vel_"+str(season)+"_20x40_land_v3.pdf")
+fig.savefig("composit_size_vel_"+str(season)+"_20x40_land_v3.pdf")
 
 #%% Plot relative to mean state
 fig = plt.figure()
@@ -364,8 +363,7 @@ fig.supylabel(r"Percentile size")
 fig.supxlabel("Percentile velocity")
 fig.text(0.12 , 0.08, "0%             20%           40%             60%             80%           100%")
 fig.text(0.10 , 0.1, "0%         20%          40%          60%          80%          100%", rotation="vertical")
-#fig.savefig("/scratch/depfg/6196306/MSc_thesis/varlat/composit_size_vel_"+str(season)+"_20x40_relative_land_v2.pdf")
-fig.savefig("/scratch/depfg/6196306/MSc_thesis/Final_Figures/review/composit_size_vel_"+str(season)+"_20x40_relative_land_v3.pdf")
+fig.savefig("composit_size_vel_"+str(season)+"_20x40_relative_land_v3.pdf")
 
 #%% Same but with different percentiles
 season="JJA"
@@ -395,7 +393,7 @@ fig.supylabel(r"Percentile size")
 fig.supxlabel("Percentile velocity")
 fig.text(0.12 , 0.08, "0%             5%           10%             90%             95%           100%")
 fig.text(0.10 , 0.1, "0%         20%         40%         60%         80%         100%", rotation="vertical")
-fig.savefig("/scratch/depfg/6196306/MSc_thesis/Final_Figures/review/composit_size_vel_"+str(season)+"_20x40_land_v3.pdf")
+fig.savefig("composit_size_vel_"+str(season)+"_20x40_land_v3.pdf")
 
 #%% Also try with z500 background
 # 52:27-1:04:10 = ~12 minutes
@@ -420,7 +418,7 @@ for i in range(5):
         T_block_save.to_netcdf("/scratch/depfg/6196306/MSc_thesis/Temperature/Tblock/20x40/varlat/T_block_5-10-90-95_mean_"+str(season)+"_"+str(j)+"_"+str(i)+".nc")
         print("T")
         z500_block_save = z500_block_sel.where(np.logical_and(v_cond, a_cond)).mean(dim=("time", "block", "ensemble"))
-        z500_block_save.to_netcdf("/scratch/depfg/6196306/MSc_thesis/ECEARTH3p5/historical/z500block/z500_block_5-10-90-95_mean_"+str(season)+"_"+str(j)+"_"+str(i)+".nc")
+        z500_block_save.to_netcdf("/ECEARTH3p5/historical/z500block/z500_block_5-10-90-95_mean_"+str(season)+"_"+str(j)+"_"+str(i)+".nc")
         print(i,j)
 
 #%% Plot figure
@@ -431,9 +429,9 @@ fig.suptitle(season)
 
 for i in range(5):
     for j in range(5):
-        T_block_ij = xr.open_dataarray("/scratch/depfg/6196306/MSc_thesis/Temperature/Tblock/20x40/varlat/T_block_5-10-90-95_mean_"+str(season)+"_"+str(j)+"_"+str(i)+".nc")
+        T_block_ij = xr.open_dataarray("/Temperature/Tblock/20x40/varlat/T_block_5-10-90-95_mean_"+str(season)+"_"+str(j)+"_"+str(i)+".nc")
         im = ax[j,i].pcolormesh(T_block_ij, vmin=-2.5, vmax=2.5, cmap="RdBu_r")
-        z500_block_ij = xr.open_dataarray("/scratch/depfg/6196306/MSc_thesis/ECEARTH3p5/historical/z500block/z500_block_5-10-90-95_mean_"+str(season)+"_"+str(j)+"_"+str(i)+".nc")
+        z500_block_ij = xr.open_dataarray("/ECEARTH3p5/historical/z500block/z500_block_5-10-90-95_mean_"+str(season)+"_"+str(j)+"_"+str(i)+".nc")
         im2 = ax[j,i].contour(z500_block_ij, cmap="Greys", levels=4, linewidths=1)
     
 for ax in ax.flatten():
@@ -447,14 +445,14 @@ fig.supxlabel("Percentile velocity")
 fig.text(0.12 , 0.08, "0%             5%            10%            90%            95%          100%")
 fig.text(0.10 , 0.1, "0%         20%       40%       60%       80%      100%", rotation="vertical")
 
-fig.savefig("/scratch/depfg/6196306/MSc_thesis/Final_Figures/review/composit_size_vel_"+str(season)+"_20x40_land_z500_v3.pdf")
+fig.savefig("composit_size_vel_"+str(season)+"_20x40_land_z500_v3.pdf")
 
 
 #%% Compare ERA5 to ECE3Bis for temperature
-tas_ERA = xr.open_dataset("/net/pc190625/nobackup_1/users/mourik/DATA/Temperature/ERA5/era5_t2m_zonalmean.nc", decode_times=False).t2m
+tas_ERA = xr.open_dataset("/Temperature/ERA5/era5_t2m_zonalmean.nc", decode_times=False).t2m
 time = pd.date_range("1950-01", periods=879, freq="M")
 tas_ERA["time"]=time
-tas_ECE = xr.open_mfdataset("/net/pc190625/nobackup_1/users/mourik/DATA/Temperature/ECEARTH3Bis/ensembles/tas/tas_hist*.nc", combine="nested", concat_dim="ensemble").tas
+tas_ECE = xr.open_mfdataset("/Temperature/ECEARTH3Bis/ensembles/tas/tas_hist*.nc", combine="nested", concat_dim="ensemble").tas
 
 tas_ERA_lat = tas_ERA.sel(time=slice("1951", "2014")).mean(dim=("time", "lon")).sel(lat=slice(90, 0))
 tas_ECE_lat = tas_ECE.sel(time=slice("1951", "2014")).mean(dim=("ensemble", "time", "lon"))
@@ -475,7 +473,7 @@ plt.xlabel(r"$\Delta T$ (K)")
 plt.ylabel(r"Latitude ($^\circ$)")
 plt.vlines(x=0, ymin=0, ymax=90, colors="black")
 plt.xlim(-3, 3)
-plt.savefig("/usr/people/mourik/Documents/Python/Figures/varlat/NH_lat_temp.pdf")
+plt.savefig("NH_lat_temp.pdf")
 plt.show()
 
 plt.figure()
@@ -485,15 +483,15 @@ plt.fill_between(np.arange(1950, 2015, 1), y1=tas_ECE_year-tas_ECE_std, y2=tas_E
 plt.xlabel("Year")
 plt.ylabel("T (K)")
 plt.legend()
-plt.savefig("/usr/people/mourik/Documents/Python/Figures/varlat/NH_annual_mean_temp.pdf")
+plt.savefig("NH_annual_mean_temp.pdf")
 plt.show()
 
 coev_ECE = tas_ECE_year.sel(year=slice("1980", "2010")).polyfit(dim="year", deg=1).polyfit_coefficients
 coev_ERA = tas_ERA.sel(lat=slice(90,0)).mean(dim=("lat", "lon")).groupby("time.year").mean("time").sel(year=slice("1980", "2010")).polyfit(dim="year", deg=1).polyfit_coefficients
 
 #%% Compare ERA5 to ECE3p5 for Z500
-z500_ECE = xr.open_mfdataset("/net/pc190625/nobackup/users/mourik/DATA/ECEARTH3Bis/remapbil2_5x2_5/northernhemisphere/historical/r*i1p5f1/ensemble/zg_day_EC-Earth3_historical_r*i1p5f1_seasmean.nc", combine="nested", concat_dim="ensemble").zg
-z500_ERA = xr.open_dataset("/net/pc190625/nobackup/users/mourik/DATA/ERA5/era5_z500_seasmean.nc").z500
+z500_ECE = xr.open_mfdataset("/ECEARTH3Bis/remapbil2_5x2_5/northernhemisphere/historical/r*i1p5f1/ensemble/zg_day_EC-Earth3_historical_r*i1p5f1_seasmean.nc", combine="nested", concat_dim="ensemble").zg
+z500_ERA = xr.open_dataset("/ERA5/era5_z500_seasmean.nc").z500
 
 z500_ECE_year = z500_ECE.sel(time=slice("1950", "2014")).groupby("time.year").mean(dim=("time", "ensemble", "lat", "lon"))
 z500_ERA_year = z500_ERA.sel(time=slice("1950", "2014")).groupby("time.year").mean(dim=("time", "lat", "lon"))
@@ -506,7 +504,7 @@ plt.fill_between(np.arange(1950, 2015, 1), y1=z500_ECE_year-z500_ECE_std, y2=z50
 plt.xlabel("Year")
 plt.ylabel("Z500 (m)")
 plt.legend()
-plt.savefig("/usr/people/mourik/Documents/Python/Figures/varlat/NH_annual_mean_z500.pdf")
+plt.savefig("NH_annual_mean_z500.pdf")
 plt.show()
 
 coev_ECE = z500_ECE_year.sel(year=slice("1980", "2010")).polyfit(dim="year", deg=1).polyfit_coefficients
