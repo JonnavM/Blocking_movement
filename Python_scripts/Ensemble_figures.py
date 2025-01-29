@@ -16,9 +16,9 @@ from dask.diagnostics import ProgressBar
 from matplotlib.colors import ListedColormap
 
 #%% Put files into one netcdf file and change unit of z500 of ERA5
-dir = "/scratch/depfg/6196306/MSc_thesis/"
-#z500 = xr.open_mfdataset("/net/pc190625/nobackup/users/mourik/DATA/ERA5/*.nc").z500/9.81
-#z500.to_netcdf("/net/pc190625/nobackup/users/mourik/DATA/ERA5/era5_z500.nc")
+dir = "Fill in directory"
+#z500 = xr.open_mfdataset("/ERA5/*.nc").z500/9.81
+#z500.to_netcdf("/ERA5/era5_z500.nc")
 z500 = xr.open_dataarray(dir+"ERA5/era5_z500.nc")
 print("Z500 loaded")
 
@@ -45,10 +45,10 @@ z500_ERA = xr.open_dataset(dir+"ERA5/era5_z500_seasmean.nc").z500
 
 print("Data loaded in")
 """
-GHGN_hist_mean = xr.open_dataarray("/net/pc190625/nobackup_1/users/mourik/DATA/GHG/GHGN_hist_seasmean_ens.nc")
-GHGS_hist_mean = xr.open_dataarray("/net/pc190625/nobackup_1/users/mourik/DATA/GHG/GHGS_hist_seasmean_ens.nc")
-GHGN_ERA = xr.open_dataset("/net/pc190625/nobackup_1/users/mourik/DATA/GHG/GHGN_ERA_1950_2022_seasmean.nc").index
-GHGS_ERA = xr.open_dataset("/net/pc190625/nobackup_1/users/mourik/DATA/GHG/GHGS_ERA_1950_2022_seasmean.nc").index
+GHGN_hist_mean = xr.open_dataarray("/GHG/GHGN_hist_seasmean_ens.nc")
+GHGS_hist_mean = xr.open_dataarray("/GHG/GHGS_hist_seasmean_ens.nc")
+GHGN_ERA = xr.open_dataset("/GHG/GHGN_ERA_1950_2022_seasmean.nc").index
+GHGS_ERA = xr.open_dataset("/GHG/GHGS_ERA_1950_2022_seasmean.nc").index
 """
 
 # Coordinates
@@ -123,8 +123,7 @@ cbar_ax1 = fig.add_axes([0.85, 0.14, 0.02, 0.31])
 cbar_ax2 = fig.add_axes([0.85, 0.55, 0.02, 0.31])
 plt.colorbar(b, extend="both", cax=cbar_ax1).set_label(label="Blocked days (%)", size=fontsize)
 plt.colorbar(a, extend="max", cax=cbar_ax2).set_label(label="Blocked days (%)", size=fontsize)
-#plt.savefig("/usr/people/mourik/Documents/Python/Figures/varlat/Ens_diff_mod_obs_DJF_JJA_year.pdf")
-plt.savefig("/scratch/depfg/6196306/MSc_thesis/Figures_fontsize/Ens_diff_mod_obs_DJF_JJA_year_fs="+str(fontsize)+".pdf")
+plt.savefig("/Ens_diff_mod_obs_DJF_JJA_year_fs="+str(fontsize)+".pdf")
 plt.show()
 
 print("Blocking frequency plotted")
@@ -179,8 +178,7 @@ cbar_ax1 = fig.add_axes([0.85, 0.14, 0.02, 0.31])
 cbar_ax2 = fig.add_axes([0.85, 0.55, 0.02, 0.31])
 plt.colorbar(b, extend="both", cax=cbar_ax1).set_label( label="Blocked days (%)", size=fontsize)
 plt.colorbar(a, extend="max", cax=cbar_ax2).set_label(label="Blocked days (%)", size=fontsize)
-#plt.savefig("/usr/people/mourik/Documents/Python/Figures/varlat/Ens_BI_diff_mod_obs_DJF_JJA_year.pdf")
-plt.savefig("/scratch/depfg/6196306/MSc_thesis/Figures_fontsize/Ens_BI_diff_mod_obs_DJF_JJA_year_fs="+str(fontsize)+".pdf")
+plt.savefig("Ens_BI_diff_mod_obs_DJF_JJA_year_fs="+str(fontsize)+".pdf")
 plt.show()
 
 print("Blocking intensity plotted")
@@ -228,8 +226,7 @@ cbar_ax1 = fig.add_axes([box1.xmin, box1.ymin-0.1, box1.width, 0.03])
 cbar_ax2 = fig.add_axes([box2.xmin, box2.ymin-0.1, box2.width, 0.03])
 plt.colorbar(b, cax = cbar_ax1, orientation="horizontal", extend="max").set_label(label=r"Blocking intensity $\sigma$ (-)", size=fontsize)
 plt.colorbar(c, cax = cbar_ax2, orientation="horizontal", extend="max").set_label(label=r"Blocking frequency $\sigma$ (%)", size=fontsize)
-#plt.savefig("/usr/people/mourik/Documents/Python/Figures/varlat/Ens_4_std_mod_DJF_JJA.pdf", bbox_inches="tight")
-plt.savefig("/scratch/depfg/6196306/MSc_thesis/Figures_fontsize/Ens_4_std_mod_DJF_JJA_fs="+str(fontsize)+".pdf", bbox_inches="tight")
+plt.savefig("Ens_4_std_mod_DJF_JJA_fs="+str(fontsize)+".pdf", bbox_inches="tight")
 plt.show()
 
 print("Intramodel variation plotted")
@@ -256,8 +253,7 @@ a = ax2.pcolormesh(lon, lat[14:31], z500_hist_mean.sel(time=slice("01-01-1951", 
 plt.colorbar(a, location="bottom", extend="both").set_label(label=r"$\Delta$ zg [m]", size=fontsize)
 ax2.set_title("JJA", fontsize=fontsize)
 plt.tight_layout()
-#plt.savefig("/usr/people/mourik/Documents/Python/Figures/varlat/Diff_z500hist_era.pdf")
-plt.savefig("/scratch/depfg/6196306/MSc_thesis/Figures_fontsize/Diff_z500hist_era_fs="+str(fontsize)+".pdf", bbox_inches="tight")
+plt.savefig("Diff_z500hist_era_fs="+str(fontsize)+".pdf", bbox_inches="tight")
 plt.show()
 
 #Show gradient
@@ -286,8 +282,7 @@ a = ax2.pcolormesh(lon, lat[14:31], grad_z500_JJA[0], transform=ccrs.PlateCarree
 plt.colorbar(a, location="bottom", extend="both").set_label(label=r"$\Delta$ zg [m/deg]", size=fontsize)
 ax2.set_title("JJA", fontsize=fontsize)
 plt.tight_layout()
-#plt.savefig("/usr/people/mourik/Documents/Python/Figures/varlat/Grad_z500_hist_era.pdf")
-plt.savefig("/scratch/depfg/6196306/MSc_thesis/Figures_fontsize/Grad_z500_hist_era_fs="+str(fontsize)+".pdf", bbox_inches="tight")
+plt.savefig("Grad_z500_hist_era_fs="+str(fontsize)+".pdf", bbox_inches="tight")
 plt.show()
 
 print("Z500 fields plotted")
